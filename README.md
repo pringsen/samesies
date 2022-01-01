@@ -1,2 +1,2 @@
-# samesies
+# index
 Data comparision library
