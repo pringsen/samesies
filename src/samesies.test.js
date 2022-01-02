@@ -85,6 +85,33 @@ test('Samesies same object zeroconfig', () => {
 
     expect(samesies.examine(reference,values)).toEqual(true);
 });
+
+test('Samesies same object primarykey simple', () => {
+    let samesies = new Samesies({primaryKey: 'key1'});
+
+    let reference = [
+        {key1: 11, key2: 21},
+        {key1: 12, key2: 22},
+    ]
+    let values = reference
+
+    expect(samesies.examine(reference,values)).toEqual(true);
+});
+
+test('Samesies same object primarykey simple duplicate key', () => {
+    let samesies = new Samesies({primaryKey: 'key1'});
+
+    let reference = [
+        {key1: 1, key2: 1},
+        {key1: 1, key2: 2},
+    ]
+    let values = [
+        {key1: 1, key2: 1},
+    ]
+
+    expect(samesies.examine(reference,values)).toEqual([{"compareField": null, "compareFieldValue": null, "compareObject": null, "message": "Duplicate primary key in reference list", "referenceField": "key1", "referenceFieldValue": 1, "referenceObject": {"key1": 1, "key2": 2}}]);
+});
+
 test('Samesies different objects zeroconfig', () => {
     let samesies = new Samesies();
 
@@ -98,6 +125,21 @@ test('Samesies different objects zeroconfig', () => {
     ]
 
     expect(samesies.examine(reference,values)).toEqual([{"compareField": "key1", "compareFieldValue": 33, "compareObject": {"key1": 33, "key2": 21}, "message": "Value not equal to reference value", "referenceField": "key1", "referenceFieldValue": 11, "referenceObject": {"key1": 11, "key2": 21}}, {"compareField": "key1", "compareFieldValue": 44, "compareObject": {"key1": 44, "key2": 22}, "message": "Value not equal to reference value", "referenceField": "key1", "referenceFieldValue": 12, "referenceObject": {"key1": 12, "key2": 22}}]);
+});
+
+test('Samesies randomized order, different objects primarykey simple', () => {
+    let samesies = new Samesies({primaryKey: 'key1'});
+
+    let reference = [
+        {key1: 12, key2: 21},
+        {key1: 11, key2: 22},
+    ]
+    let values = [
+        {key1: 11, key2: 33},
+        {key1: 12, key2: 21},
+    ]
+
+    expect(samesies.examine(reference,values)).toEqual([{"compareField": "key2", "compareFieldValue": 33, "compareObject": {"key1": 11, "key2": 33}, "message": "Value not equal to reference value", "referenceField": "key2", "referenceFieldValue": 22, "referenceObject": {"key1": 11, "key2": 22}}]);
 });
 
 test('Samesies reference size bigger', () => {
@@ -132,3 +174,18 @@ test('Samesies other size bigger than reference', () => {
     expect(samesies.examine(reference,values)).toEqual([{"compareField": null, "compareFieldValue": null, "compareObject": {"key1": 13, "key2": 33}, "message": "Compare object not found", "referenceField": null, "referenceFieldValue": null, "referenceObject": null}]);
 });
 
+
+test('Samesies missing primarykey simple', () => {
+    let samesies = new Samesies({primaryKey: 'key1'});
+
+    let reference = [
+        {key1: 11, key2: 22},
+        {key1: 12, key2: 21},
+    ]
+    let values = [
+        {key1: 11, key2: 22},
+        {key1: 21, key2: 44},
+    ]
+
+    expect(samesies.examine(reference,values)).toEqual([{"compareField": null, "compareFieldValue": null, "compareObject": null, "message": "Reference object not found", "referenceField": "key1", "referenceFieldValue": 12, "referenceObject": {"key1": 12, "key2": 21}}, {"compareField": "key1", "compareFieldValue": 21, "compareObject": {"key1": 21, "key2": 44}, "message": "Compare object not found", "referenceField": null, "referenceFieldValue": null, "referenceObject": null}]);
+});
