@@ -1,12 +1,25 @@
 {
-  "name": "samesame",
+  "name": "@pringsen/samesies",
   "version": "1.0.0",
   "main": "index.js",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/pringsen/samesies.git"
-    },
+    "type": "git",
+    "url": "git+https://github.com/pringsen/samesies.git"
+  },
   "devDependencies": {
     "jest": "^27.4.5"
-  }
+  },
+  "description": "Data comparision library",
+  "bugs": {
+    "url": "https://github.com/pringsen/samesies/issues"
+  },
+  "homepage": "https://github.com/pringsen/samesies#readme",
+  "dependencies": {
+
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Philipp Ringel",
+  "license": "MIT"
 }
