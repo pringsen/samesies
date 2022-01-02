@@ -1,0 +1,12 @@
+{
+  "name": "samesame",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/pringsen/samesies.git"
+    },
+  "devDependencies": {
+    "jest": "^27.4.5"
+  }
+}
